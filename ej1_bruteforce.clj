@@ -1,17 +1,20 @@
-(defn bruteforce [s_in, w_in]
-    (if (== (compare s_in w_in) 0) true
-        (let [original_w w_in]
-            (defn bruteforce_in [s, w]
-                (if (== (compare original_w w) 0) false
-                (if (== (compare s w) 0)
-                    true
-                    (bruteforce_in s (str (subs w 1) (str (get w 0))))
-                ))
+(defn bruteforce [s, w]
+    (if (= s w) 
+        true
+        (let [original_w w]
+            (defn bruteforce_in [s_in, w_in]
+                (if (= original_w w_in) 
+                    false
+                    (if (= s_in w_in) 
+                        true
+                        (bruteforce_in s_in (str (subs w_in 1) (str (get w_in 0))))
+                    )
+                )
             )
-            (def ww (str (subs w_in 1) (str (get w_in 0))))
-            (bruteforce_in s_in ww)
+            (bruteforce_in s (str (subs w 1) (str (get w 0))))
         )
     )
 )
 
-(println (bruteforce "ABRACADABRA" "DABRAABRACA"))
+(defn ARGV [n] (nth *command-line-args* n))
+(println (bruteforce (ARGV 0) (ARGV 1)))
