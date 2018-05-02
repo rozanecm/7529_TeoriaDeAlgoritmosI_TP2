@@ -1,0 +1,24 @@
+{
+  "name": "7529_teoriadealgoritmosi_tp2",
+  "version": "1.0.0",
+  "description": "Trabajo práctico n.2 de la materia Teoría de Algoritmos I (75.29) de la FIUBA.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node_modules/.bin/lumo -i"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rozanecm/7529_TeoriaDeAlgoritmosI_TP2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rozanecm/7529_TeoriaDeAlgoritmosI_TP2/issues"
+  },
+  "homepage": "https://github.com/rozanecm/7529_TeoriaDeAlgoritmosI_TP2#readme",
+  "dependencies": {
+    "lumo-cljs": "^1.8.0"
+  }
+}
