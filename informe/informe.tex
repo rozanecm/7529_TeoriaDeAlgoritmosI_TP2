@@ -66,6 +66,18 @@
 \section{Parte 1: Spy vs Spy}
 \section{Parte 2}
 \subsection{Ejercicio 1}
+El problema a resolver es uno de detección de rotaciones cíclicas en dos strings (cadenas de caracteres). Se pide resolverlo usando distintos algoritmos y comparar sus órdenes de tiempo de ejecución.
+
+La primera solución a implementar es por fuerza bruta. Si asumimos que la comparación de strings es de orden lineal, ir haciendo la rotación de uno de los dos strings y comparando hasta llegar a una igualdad da como resultado un algoritmo de orden cuadrático en el peor caso, cuando se prueban todas las rotaciones y ninguna comparación da verdadera.
+
+La segunda solución es implementando el algoritmo KMP de \textit{string matching}. El algoritmo se puede resumir en una forma optimizada de decidir si una palabra \textit{word} está contenida dentro de un texto fuente \textit{text} en orden lineal, realizando un precómputo de una tabla de valores que asisten al algoritmo durante la ejecución. El caso de uso común de KMP es para ubicar una única palabra en un texto grande, mientras que nuestro problema es diferente, queremos decir si un string es una rotación cíclica de otro. Lo que hacemos es ejecutar el algoritmo bajo un ciclo \textit{for}, rotando uno de los strings entre cada iteración. El algoritmo KMP es de orden lineal de la longitud del texto, que para nuestro caso es el mismo que el de la palabra.
+
+Esta aplicación se puede ver como una \textit{reducción} de un problema a otro. Estamos reduciendo el problema de detección de rotaciones cíclicas al de string matching de KMP, usándolo como una "caja negra" para ayudarnos a resolver el original. El ciclo que ejecuta esta caja negra es en el peor caso de N iteraciones, para poder comprobar que ninguna rotación es igual al texto fuente. El orden de complejidad resultante es, entonces, cuadrático.
+
+Este uso de KMP es lejos de ser óptimo, no obtuvimos una complejidad mejor a la fuerza bruta, y en ejecuciones reales los cálculos adicionales que hace KMP para lograr un orden lineal realentizan la ejecución suficiente para que sea un orden entero más lento que una implementación por fuerza bruta. Una mejora sustancial al algoritmo es ejecutar KMP tomando como palabra a ubicar el texto rotado, y como fuente \textbf{una copia duplicada} del texto original, es decir si el texto es \texttt{ABC}, tomaremos como fuente \texttt{ABCABC}. Es fácil de ver que cualquier rotación posible del texto original está completamente contenida dentro de el texto duplicado, tendrá una parte dentro de la primera mitad, y el resto contiguo en la segunda. Con esta estrategia, una única ejecución de KMP es suficiente para poder decidir si un string es rotación de la otra. 
+
+Esta estrategia también es una reducción del problema a uno de string matching resolvible por KMP. Aquí, se debe aplicar una transformación de los datos de entrada para que "encaje" con el uso que queremos darle a KMP, a diferencia del caso anterior que se pasaban el string original y la potencial rotación como palabra y texto de KMP. El orden mejora sustancialmente al solo ser una única ejecución de KMP, es lineal al ser la duplicación del string fuente también lineal, al costo de duplicar el espacio de memoria utilizado (aunque el orden espacial tampoco cambie, sigue siendo lineal sobre el tamaño del texto).
+
 \subsection{Ejercicio 2}
 \subsection{Ejercicio 3}
 Como primer paso, demostraremos que, dada una cantidad $n$ de cursos, si llamamos $m$ a la cantidad máxima de cursos superpuestos en cualquier instante de tiempo, la cantidad de aulas necesarias para realizar la asignación es $m$.\\
