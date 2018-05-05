@@ -62,10 +62,15 @@ def cycle_improved(text, candidate):
     return kmp(text * 2, candidate) >= 0
 
 def bruteforce(text, candidate):
+    """Solución por fuerza bruta. Va rotando el string 'candidate' y 
+    comparando si es igual al texto fuente hasta que de True, o se rote
+    hasta llegar al ciclo completo.
+    """
     original_candidate = word
 
     candidate = candidate[-1] + candidate[:-1]
     while candidate != original_candidate:
+        # Implementación lineal de igualdad de strings. Python optimiza el uso de '==' a O(1)
         strings_equal = True
         for i in range(len(text)):
             if text[i] != candidate[i]:
