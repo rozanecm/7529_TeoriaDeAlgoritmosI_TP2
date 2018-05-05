@@ -1,4 +1,6 @@
 #!coding=utf8
+import sys
+
 
 def make_table(word):
     """Arma la tabla de saltos para KMP del string 'word'"""
@@ -59,5 +61,10 @@ def cycle_improved(text, candidate):
 
     return kmp(text * 2, candidate) >= 0
 
-print cycle('DABRAABRACA', 'ABRACADABRA')
-print cycle_improved('DABRAABRACA', 'ABRACADABRA')
+if __name__ == '__main__':
+    text = 'A' * 9999 + 'B'
+    word = 'B' + 'A' * 9999
+    if len(sys.argv) > 1 and sys.argv[1] == '--optimize':
+        print cycle_improved(text, word)
+    else:
+        print cycle(text, word)
