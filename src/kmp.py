@@ -61,10 +61,30 @@ def cycle_improved(text, candidate):
 
     return kmp(text * 2, candidate) >= 0
 
+def bruteforce(text, candidate):
+    original_candidate = word
+
+    candidate = candidate[-1] + candidate[:-1]
+    while candidate != original_candidate:
+        strings_equal = True
+        for i in range(len(text)):
+            if text[i] != candidate[i]:
+                strings_equal = False
+                break
+        
+        if strings_equal:
+            return True
+        candidate = candidate[-1] + candidate[:-1]
+
+    return False
+
+
 if __name__ == '__main__':
     text = 'A' * 9999 + 'B'
     word = 'B' + 'A' * 9999
     if len(sys.argv) > 1 and sys.argv[1] == '--optimize':
         print cycle_improved(text, word)
+    elif len(sys.argv) > 1 and sys.argv[1] == '--bruteforce':
+        print bruteforce(text, word)
     else:
         print cycle(text, word)
