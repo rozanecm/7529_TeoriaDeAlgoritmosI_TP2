@@ -79,6 +79,14 @@ Este uso de KMP es lejos de ser óptimo, no obtuvimos una complejidad mejor a la
 Esta estrategia también es una reducción del problema a uno de string matching resolvible por KMP. Aquí, se debe aplicar una transformación de los datos de entrada para que "encaje" con el uso que queremos darle a KMP, a diferencia del caso anterior que se pasaban el string original y la potencial rotación como palabra y texto de KMP. El orden mejora sustancialmente al solo ser una única ejecución de KMP, es lineal al ser la duplicación del string fuente también lineal, al costo de duplicar el espacio de memoria utilizado (aunque el orden espacial tampoco cambie, sigue siendo lineal sobre el tamaño del texto).
 
 \subsection{Ejercicio 2}
+Se demostrará a continuación que el problema es difícil.\\
+
+Se mostrará que \textit{Ciclo Hamiltoniano} $\leq _p$ \textit{TSP}. \\
+
+Dado un grafo dirigido $G=(V,E)$, se define la siguiente instancia del TSP. Se tiene una ciudad $v'_i$ para cada nodo $v_i$ del grafo $G$. Se define $d(v'_i, v'_j)$ igual a 2 de haber una arista $(v_i, v_j)$ en $G$, y se define igual a 1 en caso contrario.\\
+
+$G$ tiene un ciclo Hamiltoniano si y solo si hay un tour de longitud como mínimo $2n$ en el TSP estudiado. Si $G$ tiene un ciclo Hamiltoniano, entonces este ordenamiento de las correspondientes ciudades  define un tour de longitud $2n$. A la inversa, suponga que hay un tour de como mínimo $2n$. La expresión para la longitud de este tour es la suma de $n$ términos, cada uno de los cuales es como máximo $2$, por lo que debe ser el caso que todos los términos son iguales a $2$. Por lo tanto cada par de nodos en $G$ que corresponde a ciudades consecutivas en el tour debe estar conectado por una aristañ se sigue que el ordenamiento de esos correspondientes nodos debe formar un ciclo Hamiltoniano.
+
 \subsection{Ejercicio 3}
 Como primer paso, demostraremos que, dada una cantidad $n$ de cursos, si llamamos $m$ a la cantidad máxima de cursos superpuestos en cualquier instante de tiempo, la cantidad de aulas necesarias para realizar la asignación es $m$.\\
 
@@ -128,4 +136,8 @@ Queda así demostrado que $Aulas\ necesarias = m$
     }
 \caption{Pseudo código que resuelve el problema.}
 \end{algorithm}
+\subsubsection{Reducción a problema de coloreo de grafos}
+Considérese cada una de las materias como un nodo. Dados dos nodos, se establece una conexión entre ellos mediante una arista únicamente en caso de superposición horaria entre los cursos que representan dichos nodos. De esta forma, si se encuentra la forma de pintar todos los vértices de forma que no queden dos adyacentes con el mismo color, utilizando la cantidad mínima de colores, se habrá resuelto el problema propuesto.
+\subsection{¿P=NP?}
+No. 
 \end{document}
