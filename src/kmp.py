@@ -16,7 +16,7 @@ def make_table(word):
             candidate = table[candidate]
             while candidate >= 0 and character != word[candidate]:
                 candidate = table[candidate]
-            
+
         candidate += 1
 
     return table
@@ -33,7 +33,7 @@ def kmp(text, word):
             k = table[k]
             if k < 0:
                 k = 0
-    
+
     return -1
 
 
@@ -62,11 +62,11 @@ def cycle_improved(text, candidate):
     return kmp(text * 2, candidate) >= 0
 
 def bruteforce(text, candidate):
-    """Solución por fuerza bruta. Va rotando el string 'candidate' y 
+    """Solución por fuerza bruta. Va rotando el string 'candidate' y
     comparando si es igual al texto fuente hasta que de True, o se rote
     hasta llegar al ciclo completo.
     """
-    original_candidate = word
+    original_candidate = candidate
 
     candidate = candidate[-1] + candidate[:-1]
     while candidate != original_candidate:
@@ -76,7 +76,7 @@ def bruteforce(text, candidate):
             if text[i] != candidate[i]:
                 strings_equal = False
                 break
-        
+
         if strings_equal:
             return True
         candidate = candidate[-1] + candidate[:-1]
@@ -84,12 +84,21 @@ def bruteforce(text, candidate):
     return False
 
 
-if __name__ == '__main__':
-    text = 'A' * 9999 + 'B'
-    word = 'B' + 'A' * 9999
-    if len(sys.argv) > 1 and sys.argv[1] == '--optimize':
+def run():
+    assert len(sys.argv) == 3
+
+    chars = int(sys.argv[1]) if len(sys.argv) > 1 else 100
+    method = sys.argv[2]
+
+    text = 'A' * chars + 'B'
+    word = 'B' + 'A' * chars
+    if method == '--kmp-optimize':
         print cycle_improved(text, word)
-    elif len(sys.argv) > 1 and sys.argv[1] == '--bruteforce':
+    elif method  == '--bruteforce':
         print bruteforce(text, word)
-    else:
+    elif method == '--kmp':
         print cycle(text, word)
+    else:
+        print "Metodo no reconocido:", method
+if __name__ == '__main__':
+    run()
