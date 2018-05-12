@@ -91,6 +91,32 @@ Cabe aclarar que las cotas de complejidad temporal que encontramos no son conclu
 \subsubsection{Conclusiones}
 El algoritmo por fuerza bruta inicial es un orden cuadrático en la longitud del string. Las reducciones a KMP nos llevan a decir que el problema de rotaciones cícicas es, \textbf{a lo sumo}, de complejidad cuadrática en la primera versión, y lineal en la segunda. No se demuestra que esta última cota es la complejidad real del problema porque la reducción como herramienta no nos permite poder afirmarlo.
 
+A continuación se muestra los tiempos de ejecución de los tres algoritmos para distintos tamaños de cadenas de caracteres. En todos los casos se busca detectar si una cadena de tipo \texttt{AAA...B} es rotación cíclica de \texttt{B...AAA}. De la manera que fueron implementadas las soluciones coincide con el peor caso posible de tiempo de ejecución, en donde se rota N veces la segunda cadena para llegar a la primera. Se puede apreciar los órdenes cuadráticos de las implementaciones por fuerza bruta y KMP no optimizado (ésta mucho más pronunciada que la primera), y la sustancial mejora que se logra cuando se optimiza el código para usar una sola ejecución de KMP.
+
+\begin{table}[h]
+    \begin{center}    
+
+    \begin{tabular}{| l | l | l | l |}
+        \hline
+        longitud (N) & kmp & bruteforce & kmp-optimizado \\ \hline
+        1000 & 0.24 & 0.06 & 0.03 \\ \hline
+        2000 & 0.82 & 0.15 & 0.03 \\ \hline
+        3000 & 1.79 & 0.29 & 0.03 \\ \hline
+        4000 & 3.17 & 0.48 & 0.03 \\ \hline
+        5000 & 4.94 & 0.75 & 0.03 \\ \hline
+        6000 & 7.25 & 1.05 & 0.03 \\ \hline
+        7000 & 10.16 & 1.46 & 0.03 \\ \hline
+        8000 & 12.96 & 1.85 & 0.03 \\ \hline
+        9000 & 16.5 & 2.39 & 0.04 \\ \hline
+        10000 & 22.61 & 2.95 & 0.01 \\ \hline
+        100000 &  &  & 0.06 \\ \hline
+        1000000 &  &  & 0.37 \\ \hline
+        5000000 &  &  & 1.74 \\ \hline
+    \end{tabular}
+    \caption{Tiempos de ejecución en segundos para los distintos algoritmos}
+\end{center}
+\end{table}
+
 \subsection{Ejercicio 2}
 Se demostrará a continuación que el problema es difícil.\\
 
