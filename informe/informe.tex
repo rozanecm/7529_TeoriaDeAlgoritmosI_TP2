@@ -64,6 +64,26 @@
 }
 \part{Resolución}
 \section{Parte 1: Spy vs Spy}
+
+\subsection{Caminos sin costos}
+Para resolver el problema partimos de la idea de que el espía que está mas cerca del aeropuerto se queda con los documentos. Así, para resolver el problema con costos unitarios, sedecidió hacer una versión modificada de BFS, partiendo desde el aeropuerto. Así, el algoritmo a medida que se ejecuta descubre "capas" en el grafo, donde cada capa está a una distancia mayor del aeropuerto que la anterior. El algoritmo se detiene cuando descubre una capa que contiene al menos un espía. De esta forma determina el más cercano, o indica que ambos están a la misma distancia.
+
+[[poner un dibujito acáaaa]]
+
+\subsubsection{Complejidad del algoritmo para caminos sin costos}
+
+En el archivo \texttt{problema.clj} se abstrajo lo que tienen en común las dos situaciones a resolver: que la solución se realiza con la estrategia greedy. Así, \texttt{solucion-greedy} se llamará una vez para cada una delas alternativas que surjan. Debido a la naturaleza de Breadth-First-Search (\texttt{bfs.clj}), podemos determinar que esta función se ejecutará, como mucho, una vez por cada vértice.
+
+Los pasos \texttt{terminado?}, \texttt{conclusion} son \textit{O(1)} si se considera que el tamaño de la lista \texttt{hasta} es constante, lo cual es verdadero para el problema en cuestión. Se utilizan los conjuntos y diccionarios del lenguaje para brindar acceso en tiempo constante. Sin embargo, la función \texttt{alternativa} tiene una duración que crece linealmente con la cantidad de \texttt{vecinos} que tenga el vértice \texttt{actual}. Si \texttt{alternativa} se ejecuta para todos los vértices del grafo, la cantidad acumulada de vecinos será el doble de la cantidad de aristas del grafo. Así, el algoritmo implementado tiene una complejidad temporal igual a la de BFS: \textit{O(|V|+|E|)}.
+
+Agregando la etapa en que se retorna el camino recorrido por cada espia, la complejidad sólo puede llegar a \textit{O(|V|)}, ya que durante el algoritmo se calculan todas las distancias necesarias para alcanzar los espías desde el aeropuerto: El algoritmo que forma este camino sólo tiene que recorrer el grafo desde los puntos de partida de cada espía eligiendo como siguiente nodo el vecino con menor distancia al aeropuerto.
+
+Por lo tanto, incorporando esta etapa, la complejidad temporal sigue siendo \textit{O(|V|+|E|)}.
+
+\subsection{}
+
+
+
 \section{Parte 2}
 \subsection{Ejercicio 1}
 El problema a resolver es uno de detección de rotaciones cíclicas en dos strings (cadenas de caracteres). Un string es una rotación cíclica de otro cuando, al ``conectar" el principio y el fin de cada una, se tenga como resultado ciclos indistinguibles uno del otro. Por ejemplo, el \texttt{ABCD} y \texttt{CDAB} son rotaciones cíclicas uno del otro, porque los ciclos \texttt{ABCDABCDABCD...} y \texttt{CDABCDABCDAB...} son indistinguibles si no sabemos su punto de inicio. El problema puede ser caracterizado como uno de decisión, simplemente queremos saber si se cumple la condición pedida o no, es decir, los algoritmos a implementar simplemente devuelven un valor booleano, verdadero o falso. Se pide resolverlo usando distintos algoritmos y comparar sus órdenes de tiempo de ejecución.
