@@ -7,6 +7,7 @@
 \usepackage{geometry}
 % to install algorithm2e pckg: sudo apt-get install texlive-science
 \usepackage[ruled, vlined, nofillcomment]{algorithm2e}
+\usepackage{float}
 
 \geometry{
     a4paper,
@@ -83,14 +84,14 @@ Por lo tanto, incorporando esta etapa, la complejidad temporal sigue siendo \tex
 \subsection{}
 
 
-
+\newpage
 \section{Parte 2}
 \subsection{Ejercicio 1}
-El problema a resolver es uno de detección de rotaciones cíclicas en dos strings (cadenas de caracteres). Un string es una rotación cíclica de otro cuando, al ``conectar" el principio y el fin de cada una, se tenga como resultado ciclos indistinguibles uno del otro. Por ejemplo, el \texttt{ABCD} y \texttt{CDAB} son rotaciones cíclicas uno del otro, porque los ciclos \texttt{ABCDABCDABCD...} y \texttt{CDABCDABCDAB...} son indistinguibles si no sabemos su punto de inicio. El problema puede ser caracterizado como uno de decisión, simplemente queremos saber si se cumple la condición pedida o no, es decir, los algoritmos a implementar simplemente devuelven un valor booleano, verdadero o falso. Se pide resolverlo usando distintos algoritmos y comparar sus órdenes de tiempo de ejecución.
+El problema a resolver es uno de detección de rotaciones cíclicas en dos strings (cadenas de caracteres). Un string es una rotación cíclica de otro cuando, al ``conectar'' el principio y el fin de cada una, se tenga como resultado ciclos indistinguibles uno del otro. Por ejemplo, el \texttt{ABCD} y \texttt{CDAB} son rotaciones cíclicas uno del otro, porque los ciclos \texttt{ABCDABCDABCD...} y \texttt{CDABCDABCDAB...} son indistinguibles si no sabemos su punto de inicio. El problema puede ser caracterizado como uno de decisión: simplemente queremos saber si se cumple la condición pedida o no, es decir, los algoritmos a implementar simplemente devuelven un valor booleano, verdadero o falso. Se pide resolverlo usando distintos algoritmos y comparar sus órdenes de tiempo de ejecución.
 
 La primera solución a implementar es por fuerza bruta. Si asumimos que la comparación de strings es de orden lineal, ir haciendo la rotación de uno de los dos strings y comparando hasta llegar a una igualdad da como resultado un algoritmo de orden cuadrático en el peor caso, cuando se prueban todas las rotaciones y la última (o ninguna) comparación da verdadera.
 
-La segunda solución es implementando el algoritmo KMP de \textit{string matching}. El algoritmo se puede resumir en una forma optimizada de decidir si una palabra \textit{word} está contenida dentro de un texto fuente \textit{text} en orden lineal, realizando un precómputo de una tabla de valores que asisten al algoritmo durante la ejecución. El caso de uso común de KMP es para ubicar una única palabra en un texto grande, mientras que nuestro problema es diferente, queremos decir si un string es una rotación cíclica de otro. Lo que hacemos es ejecutar el algoritmo bajo un ciclo \textit{for}, rotando uno de los strings entre cada iteración. El algoritmo KMP es de orden lineal de la longitud del texto, que para nuestro caso es el mismo que el de la palabra.
+La segunda solución es implementando el algoritmo KMP de \textit{string matching}. El algoritmo se puede resumir en una forma optimizada de decidir si una palabra \textit{word} está contenida dentro de un texto fuente \textit{text} en orden lineal, realizando un precómputo de una tabla de valores que asisten al algoritmo durante la ejecución. El caso de uso común de KMP es para ubicar una única palabra en un texto grande, mientras que nuestro problema es diferente: queremos decir si un string es una rotación cíclica de otro. Lo que hacemos es ejecutar el algoritmo bajo un ciclo \textit{for}, rotando uno de los strings entre cada iteración. El algoritmo KMP es de orden lineal de la longitud del texto, que para nuestro caso es el mismo que el de la palabra.
 
 Esta aplicación se puede ver como una \textit{reducción} de un problema a otro. Las reducciones son una herramienta que nos permite obtener información de la complejidad de un algoritmo desconocido, basándonos en uno conocido. Llamemos al algoritmo que no conocemos como X, y al que sí, como Y. Si podemos resolver X utilizando a un algoritmo que resuelve Y como una caja negra, utilizándola una cantidad polinomial de veces, se pueden establecer relaciones entre las complejidades de ambos problemas.
 
@@ -102,9 +103,9 @@ En particular, la reducción que nos interesa es X siendo el problema de rotacio
     \caption{Reducciones}
 \end{figure}
 
-Este uso de KMP es lejos de ser óptimo, no obtuvimos una complejidad mejor a la fuerza bruta, y en ejecuciones reales los cálculos adicionales de la tabla asistente que hace KMP para lograr un orden lineal realentizan la ejecución suficientemente para que sea un orden entero más lento que una implementación por fuerza bruta. Una mejora sustancial al algoritmo es ejecutar KMP tomando como palabra a ubicar el texto rotado, y como fuente \textbf{una copia duplicada} del texto original, es decir si el texto es \texttt{ABC}, tomaremos como fuente \texttt{ABCABC}. Es fácil de ver que cualquier rotación posible del texto original está completamente contenida dentro de el texto duplicado, tendrá una parte dentro de la primera mitad, y el resto contiguo en la segunda. Con esta estrategia, una única ejecución de KMP es suficiente para poder decidir si un string es rotación de la otra. 
+Este uso de KMP es lejos de ser óptimo, no obtuvimos una complejidad mejor a la fuerza bruta, y en ejecuciones reales los cálculos adicionales de la tabla asistente que hace KMP para lograr un orden lineal ralentizan la ejecución suficientemente para que sea un orden entero más lento que una implementación por fuerza bruta. Una mejora sustancial al algoritmo es ejecutar KMP tomando como palabra a ubicar el texto rotado, y como fuente \textbf{una copia duplicada} del texto original, es decir si el texto es \texttt{ABC}, tomaremos como fuente \texttt{ABCABC}. Es fácil de ver que cualquier rotación posible del texto original está completamente contenida dentro del texto duplicado, tendrá una parte dentro de la primera mitad, y el resto contiguo en la segunda. Con esta estrategia, una única ejecución de KMP es suficiente para poder decidir si un string es rotación de la otra. 
 
-Esta estrategia también es una reducción del problema a uno de string matching resolvible por KMP. Aquí, se debe aplicar una transformación de los datos de entrada para que ``encaje" con el uso que queremos darle a KMP, a diferencia del caso anterior que se pasaban el string original y la potencial rotación como palabra y texto de KMP. El orden mejora sustancialmente al solo ser una única ejecución de KMP, es lineal: la transformación definida también tiene orden lineal, y se hace una única ejecución de la caja negra, a diferencia de la primera versión que hacía N ejecuciones en el peor caso.
+Esta estrategia también es una reducción del problema a uno de string matching resolvible por KMP. Aquí, se debe aplicar una transformación de los datos de entrada para que ``encaje'' con el uso que queremos darle a KMP, a diferencia del caso anterior que se pasaban el string original y la potencial rotación como palabra y texto de KMP. El orden mejora sustancialmente al solo ser una única ejecución de KMP, es lineal: la transformación definida también tiene orden lineal, y se hace una única ejecución de la caja negra, a diferencia de la primera versión que hacía N ejecuciones en el peor caso.
 
 Cabe aclarar que las cotas de complejidad temporal que encontramos no son conclusivas, la reducción solo nos puede garantizar que la complejidad del problema que está siendo reducido es, \textit{a lo sumo}, del mismo orden que el algoritmo al que se reduce,asumiendo que las funciones de transformación de datos de entrada y salida son de orden menor o igual a los problemas en sí, que es nuestro caso. El problema de rotaciones cíclicas es entonces, como máximo, de la misma complejidad que el string matching de KMP, pero nada nos dice que no exista una solución que nos de un orden menor. 
 
@@ -162,7 +163,7 @@ Se mostrará que \textit{Ciclo Hamiltoniano} $\leq _p$ \textit{TSP}.
 
 Dado un grafo dirigido $G=(V,E)$, se define la siguiente instancia del TSP. Se tiene una ciudad $v'_i$ para cada nodo $v_i$ del grafo $G$. Se define $d(v'_i, v'_j)$ igual a 2 de haber una arista $(v_i, v_j)$ en $G$, y se define igual a 1 en caso contrario. Esto arma el grafo completo del TSP.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{res/tsp.png} 
     \caption{Grafo original $G$ y transformación usada en TSP}
@@ -187,6 +188,8 @@ Para todo instante $t$ de tiempo habrá, según lo demostrado anteriormente, com
 Llegamos entonces a que $$Aulas\ necesarias \leq m$$
 Queda así demostrado que $Aulas\ necesarias = m$
 \subsubsection{Pseudocódigo}
+Se muestra el algoritmo para encontrar el valor de $m$.\\
+
 \begin{algorithm}[H]
     \KwData{Horarios de inicio y finalización de cada uno de los $n$ cursos: $T_{inicio,j}$ y $T_{fin,j}$ denotan los tiempos de inicio y finalización del curso $j-$ésimo. Conjunto de todos los tiempos: $T_i, i\in (1, 2n)$}
     \KwResult{Menor cantidad de aulas necesarias para acomodar todos los cursos suponiendo que todas las aulas son iguales.}
@@ -195,8 +198,8 @@ Queda así demostrado que $Aulas\ necesarias = m$
     min time $\leftarrow \infty$\;
     max time $\leftarrow 0$\;
     \ForEach{$T_i$}{
-        \If{$(current\ min\ slice = |T_i - T_j|)<min\_aulas, i\neq j$}{
-            min time slice := current min\;
+        \If{$(current\ min\ time\ slice = |T_i - T_j|)<min\_time\_slice, \forall j / i\neq j$}{
+            min time slice := current min time slice\;
         }
         \If{$T_i < $ min time}{
             min time := $T_i$\;
@@ -208,10 +211,10 @@ Queda así demostrado que $Aulas\ necesarias = m$
     \BlankLine
     current time := min time\;
     max superpositions := 0\;
-    \While{min time $<$ max time}{
+    \While{current time $<$ max time}{
         current num of superpositions := 0\;
         \ForEach{$T_{inicio,j}, T_{fin,j}$}{
-            \If{$T_{inicio,j} \geq$ current time slice AND $> T_{fin,j}$}{
+            \If{$T_{inicio,j} \leq$ current time $< T_{fin,j}$}{
                 ++current num of superpositions\;
             }
         }
@@ -222,8 +225,18 @@ Queda así demostrado que $Aulas\ necesarias = m$
     }
 \caption{Pseudo código que resuelve el problema.}
 \end{algorithm}
+\subsubsection{Función variante}
+El \texttt{foreach} del algoritmo termina en a lo sumo $n^2$ iteraciones. Por definición, el \texttt{foreach} ejecutará una iteración por $T_i$. En cada iteración, además, se compara a cada $T_i$ con cada $T_j, \forall i\neq j$. Como la cantidad de $T_i$s es $n$, queda probado que habrá máximo $n^2$ iteraciones.
+\begin{equation}
+    n^2 - cantidad\ de\ comparaciones\ T_i\ vs\ T_j
+\end{equation}
+Se puede observar que esta función es estrictamente decreciente.\\
+
+El \texttt{while} termina una vez que se analizó una cantidad finita de tiempos, dependiende ésta del mínimo intervalo de tiempo en que se presenta algún cambio en el \textit{scheduling}.\\
+
+Queda así demostrado que el algoritmo propuesto está en $P$ (la complejidad es: cuadrática + lineal en las divisiones del intervalo de tiempo. Si se hace tender el mínimo time slice a cero, la cantidad de intervalos tenderá a infinito. Pero dado que se estudia el caso de un solo día, y el time slice real no ha de ser tan chico - podríamos suponer como algo chico 5 minutos, lo que daría en 24 hs 288 tiempos a analizar).
 \subsubsection{Reducción a problema de coloreo de grafos}
 Considérese cada una de las materias como un nodo. Dados dos nodos, se establece una conexión entre ellos mediante una arista únicamente en caso de superposición horaria entre los cursos que representan dichos nodos. De esta forma, si se encuentra la forma de pintar todos los vértices de forma que no queden dos adyacentes con el mismo color, utilizando la cantidad mínima de colores, se habrá resuelto el problema propuesto.
-\subsection{¿P=NP?}
-No. 
+\subsubsection{¿P=NP?}
+No se pueden sacar conclusiones al respecto. El algoritmo propuesto es $P$, mientras que el coloreo de grafos es $NP$. La reducción no proporciona suficiente información para sacar conclusiones: lo único que se puede concluir es que el problema de coloreo es igual o mas dificil que el problema de aulas, lo cual no es suficiente para probar nada.
 \end{document}
