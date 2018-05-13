@@ -68,8 +68,6 @@
 \subsection{Caminos sin costos}
 Para resolver el problema partimos de la idea de que el espía que está mas cerca del aeropuerto se queda con los documentos. Así, para resolver el problema con costos unitarios, sedecidió hacer una versión modificada de BFS, partiendo desde el aeropuerto. Así, el algoritmo a medida que se ejecuta descubre "capas" en el grafo, donde cada capa está a una distancia mayor del aeropuerto que la anterior. El algoritmo se detiene cuando descubre una capa que contiene al menos un espía. De esta forma determina el más cercano, o indica que ambos están a la misma distancia.
 
-[[poner un dibujito acáaaa]]
-
 \subsubsection{Complejidad del algoritmo para caminos sin costos}
 
 En el archivo \texttt{problema.clj} se abstrajo lo que tienen en común las dos situaciones a resolver: que la solución se realiza con la estrategia greedy. Así, \texttt{solucion-greedy} se llamará una vez para cada una delas alternativas que surjan. Debido a la naturaleza de Breadth-First-Search (\texttt{bfs.clj}), podemos determinar que esta función se ejecutará, como mucho, una vez por cada vértice.
