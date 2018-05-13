@@ -69,8 +69,6 @@
 \subsection{Caminos sin costos}
 Para resolver el problema partimos de la idea de que el espía que está mas cerca del aeropuerto se queda con los documentos. Así, para resolver el problema con costos unitarios, sedecidió hacer una versión modificada de BFS, partiendo desde el aeropuerto. Así, el algoritmo a medida que se ejecuta descubre "capas" en el grafo, donde cada capa está a una distancia mayor del aeropuerto que la anterior. El algoritmo se detiene cuando descubre una capa que contiene al menos un espía. De esta forma determina el más cercano, o indica que ambos están a la misma distancia.
 
-[[poner un dibujito acáaaa]]
-
 \subsubsection{Complejidad del algoritmo para caminos sin costos}
 
 En el archivo \texttt{problema.clj} se abstrajo lo que tienen en común las dos situaciones a resolver: que la solución se realiza con la estrategia greedy. Así, \texttt{solucion-greedy} se llamará una vez para cada una delas alternativas que surjan. Debido a la naturaleza de Breadth-First-Search (\texttt{bfs.clj}), podemos determinar que esta función se ejecutará, como mucho, una vez por cada vértice.
@@ -81,8 +79,19 @@ Agregando la etapa en que se retorna el camino recorrido por cada espia, la comp
 
 Por lo tanto, incorporando esta etapa, la complejidad temporal sigue siendo \textit{O(|V|+|E|)}.
 
-\subsection{}
+\subsection{Caminos con costos}
 
+El algoritmo aprovecha la abstracción \texttt{Problema} discutida anteriormente, para describir un algoritmo similar a Dijkstra. El algoritmo consiste en realizar Dijkstra teniendo como punto de inicio el aeropuerto y terminando la ejecución cuando se fijan los valores de las distancias entre cada uno de los espías y el aeropuerto.
+
+\subsubsection{Complejidad del algoritmo de caminos con costos}
+
+En el archivo \texttt{dijkstra.clj} puede observarse la descripción del algoritmo. También se aprovecha la abstracción \texttt{Problema} descripta anteriormente. Nuevamente, al igual que para bfs, se tiene un conjunto de vértices visitados, de manera que un vertice que pertenece a tal conjunto no será analizado nuevamente, su distancia al aeropuerto queda fija. Así, al igual que con BFS, \texttt{alternativa} se ejecuta como mucho una vez por cada vértice.
+
+La determinación de las variables \texttt{vecinos-no-visitados} y \texttt{distancias-actual-vecino} toma un tiempo que depende linealmente de la cantidad de vecinos que tenga el vértice en cuestión, con lo cual, si se llama \texttt{alternativa} para cada vértice, estas toman un tiempo total máximo \textit{O(|E|)}. La complejidad temporal de determinar \texttt{actual}  es \textit{O(log |V|)} porque \texttt{visitables} del record \texttt{estado-dijkstra} (en el archivo \texttt{estado-dijkstra.clj}) es un \texttt{sorted-map}, que es representado internamente con una estructura de heap. Lo mismo sucede para el llamado de \texttt{e/sin-siguiente-a-visitar}: se llama a \texttt{e/siguiente-a-visitar} y luego se crea una versión modifiada del \texttt{sorted-map}, lo cual también es \textit{O(log |V|)}.
+
+Sin embargo, el llamado a \texttt{e/distancias-a-traves-de} tiene una complejidad mayor que los anteriores. Esta función llama una vez por cada vecino del vértice \texttt{actual} a \texttt{distancias-a-traves-de-uno}. Esta función llama, a su vez, a las funciones \texttt{sin-vertice} y \texttt{con-vertice}, ambas crean versiones modificadas del \texttt{sorted-map}, lo cual es \textit{O(log |V|)}. Como \texttt{distancias-a-traves-de-uno} se puede ejecutar como mucho \textit{2|E|} veces (una vez por cada vecino de \texttt{actual}), tenemos que ejecutar el algoritmo propuesto toma un tiempo \textit{O(|V| + |E| log|V|)}.
+
+Añadir el cálculo de los caminos de cada espía funciona de manera idéntica que con el algoritmo para el grafo con pesos unitarios: La etapa tendrá complejidad \textit{O(|V|)}, con lo cual el tiempo de ejecución total del algoritmo no cambiaría.
 
 \newpage
 \section{Parte 2}
