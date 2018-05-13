@@ -75,7 +75,7 @@ En el archivo \texttt{problema.clj} se abstrajo lo que tienen en común las dos 
 
 Los pasos \texttt{terminado?}, \texttt{conclusion} son \textit{O(1)} si se considera que el tamaño de la lista \texttt{hasta} es constante, lo cual es verdadero para el problema en cuestión. Se utilizan los conjuntos y diccionarios del lenguaje para brindar acceso en tiempo constante. Sin embargo, la función \texttt{alternativa} tiene una duración que crece linealmente con la cantidad de \texttt{vecinos} que tenga el vértice \texttt{actual}. Si \texttt{alternativa} se ejecuta para todos los vértices del grafo, la cantidad acumulada de vecinos será el doble de la cantidad de aristas del grafo. Así, el algoritmo implementado tiene una complejidad temporal igual a la de BFS: \textit{O(|V|+|E|)}.
 
-Agregando la etapa en que se retorna el camino recorrido por cada espia, la complejidad sólo puede llegar a \textit{O(|V|)}, ya que durante el algoritmo se calculan todas las distancias necesarias para alcanzar los espías desde el aeropuerto: El algoritmo que forma este camino sólo tiene que recorrer el grafo desde los puntos de partida de cada espía eligiendo como siguiente nodo el vecino con menor distancia al aeropuerto.
+Agregando la etapa en que se retorna el camino recorrido por cada espia, la complejidad sólo puede llegar a \textit{O(|V| +|E|)}, ya que durante el algoritmo se calculan todas las distancias necesarias para alcanzar los espías desde el aeropuerto: El algoritmo que forma este camino sólo tiene que recorrer el grafo desde los puntos de partida de cada espía eligiendo como siguiente nodo el vecino con menor distancia al aeropuerto. La cantidad máxima de nodos a verificar es \textit{|V|} y la cantidad de vecinos revisados acumulados es \textit{|E|}.
 
 Por lo tanto, incorporando esta etapa, la complejidad temporal sigue siendo \textit{O(|V|+|E|)}.
 
@@ -91,7 +91,7 @@ La determinación de las variables \texttt{vecinos-no-visitados} y \texttt{dista
 
 Sin embargo, el llamado a \texttt{e/distancias-a-traves-de} tiene una complejidad mayor que los anteriores. Esta función llama una vez por cada vecino del vértice \texttt{actual} a \texttt{distancias-a-traves-de-uno}. Esta función llama, a su vez, a las funciones \texttt{sin-vertice} y \texttt{con-vertice}, ambas crean versiones modificadas del \texttt{sorted-map}, lo cual es \textit{O(log |V|)}. Como \texttt{distancias-a-traves-de-uno} se puede ejecutar como mucho \textit{2|E|} veces (una vez por cada vecino de \texttt{actual}), tenemos que ejecutar el algoritmo propuesto toma un tiempo \textit{O(|V| + |E| log|V|)}.
 
-Añadir el cálculo de los caminos de cada espía funciona de manera idéntica que con el algoritmo para el grafo con pesos unitarios: La etapa tendrá complejidad \textit{O(|V|)}, con lo cual el tiempo de ejecución total del algoritmo no cambiaría.
+Añadir el cálculo de los caminos de cada espía funciona de manera idéntica que con el algoritmo para el grafo con pesos unitarios: La etapa tendrá complejidad \textit{O(|V| + |E|)}, con lo cual el tiempo de ejecución total del algoritmo no cambia.
 
 \newpage
 \section{Parte 2}
