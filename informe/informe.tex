@@ -78,7 +78,7 @@ En particular, la reducción que nos interesa es X siendo el problema de rotacio
 
 \begin{figure}[!htp]
     \centering
-    \includegraphics[scale=1]{res/reduccion.png} 
+    \includegraphics[scale=0.5]{res/reduccion.png} 
     \caption{Reducciones}
 \end{figure}
 
@@ -118,13 +118,40 @@ A continuación se muestra los tiempos de ejecución de los tres algoritmos para
 \end{table}
 
 \subsection{Ejercicio 2}
-Se demostrará a continuación que el problema es difícil.\\
+El problema descrito es, en efecto, una variante del conocido problema del viajante (\textit{TSP} según sus siglas en inglés), en donde dado un conjunto de \texttt{n} ciudades, y una ciudad de inicio, se desea encontrar un camino tal que:
+\begin{itemize}
+    \item Comience y termine en la ciudad de inicio
+    \item Pase por todas las ciudades exactamente una vez
+    \item Minimice la distancia recorrida (u otra métrica)
+\end{itemize} 
 
-Se mostrará que \textit{Ciclo Hamiltoniano} $\leq _p$ \textit{TSP}. \\
+Nuestra variante busca simplemente maximizar la distancia recorrida total en vez de minimizarla. Cabe mencionar que las reglas preestablecidas contribuyen a poder modelar la situación como un problema del viajante.
 
-Dado un grafo dirigido $G=(V,E)$, se define la siguiente instancia del TSP. Se tiene una ciudad $v'_i$ para cada nodo $v_i$ del grafo $G$. Se define $d(v'_i, v'_j)$ igual a 2 de haber una arista $(v_i, v_j)$ en $G$, y se define igual a 1 en caso contrario.\\
+El problema del viajante puede ser definido sobre un grafo: Dado un grafo completo (todos los nodos tienen aristas con todos) con pesos, y un nodo inicial en el grafo, encontrar un ciclo (también conocido como tour) en el grafo tal que:
+\begin{itemize}
+    \item Comience y termine en el nodo inicial
+    \item Pase por todos los demás nodos exactamente una vez
+    \item Minimice el peso de las aristas del ciclo
+\end{itemize}
 
-$G$ tiene un ciclo Hamiltoniano si y solo si hay un tour de longitud como mínimo $2n$ en el TSP estudiado. Si $G$ tiene un ciclo Hamiltoniano, entonces este ordenamiento de las correspondientes ciudades  define un tour de longitud $2n$. A la inversa, suponga que hay un tour de como mínimo $2n$. La expresión para la longitud de este tour es la suma de $n$ términos, cada uno de los cuales es como máximo $2$, por lo que debe ser el caso que todos los términos son iguales a $2$. Por lo tanto cada par de nodos en $G$ que corresponde a ciudades consecutivas en el tour debe estar conectado por una aristañ se sigue que el ordenamiento de esos correspondientes nodos debe formar un ciclo Hamiltoniano.
+Las primeras dos condiciones se pueden resumir a pedir que el ciclo sea Hamiltoniano.
+
+Se demostrará a continuación que el problema es \textit{difícil}, es decir, que es un problema caracterizado como NP-Hard, no resolvible en tiempo polinomial, e igual o más difícil que cualquier problema NP. Para ello, nos basamos en la herramienta anteriormente vista, las reducciones polinomiales, para demostrar que un problema NP-Hard que tomamos como conocido, es reducible a nuestra variante del \textit{TSP}. Nuestro problema conocido será el de búsqueda de ciclos Hamiltonianos dentro de un grafo.
+
+Se mostrará que \textit{Ciclo Hamiltoniano} $\leq _p$ \textit{TSP}. 
+
+Dado un grafo dirigido $G=(V,E)$, se define la siguiente instancia del TSP. Se tiene una ciudad $v'_i$ para cada nodo $v_i$ del grafo $G$. Se define $d(v'_i, v'_j)$ igual a 2 de haber una arista $(v_i, v_j)$ en $G$, y se define igual a 1 en caso contrario. Esto arma el grafo completo del TSP.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{res/tsp.png} 
+    \caption{Grafo original $G$ y transformación usada en TSP}
+\end{figure}
+$G$ tiene un ciclo Hamiltoniano si y sólo si hay un ciclo de longitud como mínimo $2n$ en el TSP estudiado. Si $G$ tiene un ciclo Hamiltoniano, entonces este ordenamiento de las correspondientes ciudades define un tour de longitud $2n$. ¿Por qué? Si existe un ciclo Hamiltoniano sobre $G$, necesariamente ese camino será la solución a nuestro TSP que maximiza distancias, porque por definición, dijimos que las aristas que estaban originalmente en $G$ tendrán peso 2, y las que agregamos para hacer el grafo completo, tendrán peso 1. Estas $n$ aristas de peso $2$ terminan sumando $2n$.
+
+A la inversa, suponga que hay un tour de como mínimo $2n$. La expresión para la longitud de este tour es la suma de $n$ términos y como, por definición, hay sólo aristas de peso 1 y 2, entonces debe ser el caso que todos los términos son iguales a $2$. Por lo tanto, todas estas aristas forman el ciclo Hamiltoniano en el TSP, y también en el grafo original $G$, porque las aristas de peso $2$ en el TSP son las que pertenecían a $G$.
+
+Esta equivalencia demostrada nos lleva a concluir que el problema de encontrar ciclos Hamiltonianos en grafos puede ser resuelto de manera general a través de un caso particular de nuestro TSP que busca distancias máximas. Sabiendo que está demostrado que el problema de ciclos es NP-Hard, necesariamente nuestro TSP también lo es, ya que encontramos una manera de resolver ciclos Hamiltonianos utilizando TSP como caja negra interna, entonces este último es necesariamente igual o más difícil que el primero.
 
 \subsection{Ejercicio 3}
 Como primer paso, demostraremos que, dada una cantidad $n$ de cursos, si llamamos $m$ a la cantidad máxima de cursos superpuestos en cualquier instante de tiempo, la cantidad de aulas necesarias para realizar la asignación es $m$.\\
