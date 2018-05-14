@@ -74,11 +74,11 @@ Para resolver el problema partimos de la idea de que el espía que está mas cer
 
 En el archivo \texttt{problema.clj} se abstrajo lo que tienen en común las dos situaciones a resolver: que la solución se realiza con la estrategia greedy. Así, \texttt{solucion-greedy} se llamará una vez para cada una delas alternativas que surjan. Debido a la naturaleza de Breadth-First-Search (\texttt{bfs.clj}), podemos determinar que esta función se ejecutará, como mucho, una vez por cada vértice.
 
-Los pasos \texttt{terminado?}, \texttt{conclusion} son \textit{O(1)} si se considera que el tamaño de la lista \texttt{hasta} es constante, lo cual es verdadero para el problema en cuestión. Se utilizan los conjuntos y diccionarios del lenguaje para brindar acceso en tiempo constante. Sin embargo, la función \texttt{alternativa} tiene una duración que crece linealmente con la cantidad de \texttt{vecinos} que tenga el vértice \texttt{actual}. Si \texttt{alternativa} se ejecuta para todos los vértices del grafo, la cantidad acumulada de vecinos será el doble de la cantidad de aristas del grafo. Así, el algoritmo implementado tiene una complejidad temporal igual a la de BFS: \textit{O(|V|+|E|)}.
+Los pasos \texttt{terminado?}, \texttt{conclusion} son $O(1)$ si se considera que el tamaño de la lista \texttt{hasta} es constante, lo cual es verdadero para el problema en cuestión. Se utilizan los conjuntos y diccionarios del lenguaje para brindar acceso en tiempo constante. Sin embargo, la función \texttt{alternativa} tiene una duración que crece linealmente con la cantidad de \texttt{vecinos} que tenga el vértice \texttt{actual}. Si \texttt{alternativa} se ejecuta para todos los vértices del grafo, la cantidad acumulada de vecinos será el doble de la cantidad de aristas del grafo. Así, el algoritmo implementado tiene una complejidad temporal igual a la de BFS: $O(|V|+|E|)$.
 
-Agregando la etapa en que se retorna el camino recorrido por cada espia, la complejidad sólo puede llegar a \textit{O(|V| +|E|)}, ya que durante el algoritmo se calculan todas las distancias necesarias para alcanzar los espías desde el aeropuerto: El algoritmo que forma este camino sólo tiene que recorrer el grafo desde los puntos de partida de cada espía eligiendo como siguiente nodo el vecino con menor distancia al aeropuerto. La cantidad máxima de nodos a verificar es \textit{|V|} y la cantidad de vecinos revisados acumulados es \textit{|E|}.
+Agregando la etapa en que se retorna el camino recorrido por cada espia, la complejidad sólo puede llegar a $O(|V| +|E|)$, ya que durante el algoritmo se calculan todas las distancias necesarias para alcanzar los espías desde el aeropuerto: El algoritmo que forma este camino sólo tiene que recorrer el grafo desde los puntos de partida de cada espía eligiendo como siguiente nodo el vecino con menor distancia al aeropuerto. La cantidad máxima de nodos a verificar es $|V|$ y la cantidad de vecinos revisados acumulados es $|E|$.
 
-Por lo tanto, incorporando esta etapa, la complejidad temporal sigue siendo \textit{O(|V|+|E|)}.
+Por lo tanto, incorporando esta etapa, la complejidad temporal sigue siendo $O(|V|+|E|)$.
 
 \subsection{Caminos con costos}
 
@@ -88,11 +88,11 @@ El algoritmo aprovecha la abstracción \texttt{Problema} discutida anteriormente
 
 En el archivo \texttt{dijkstra.clj} puede observarse la descripción del algoritmo. También se aprovecha la abstracción \texttt{Problema} descripta anteriormente. Nuevamente, al igual que para bfs, se tiene un conjunto de vértices visitados, de manera que un vertice que pertenece a tal conjunto no será analizado nuevamente, su distancia al aeropuerto queda fija. Así, al igual que con BFS, \texttt{alternativa} se ejecuta como mucho una vez por cada vértice.
 
-La determinación de las variables \texttt{vecinos-no-visitados} y \texttt{distancias-actual-vecino} toma un tiempo que depende linealmente de la cantidad de vecinos que tenga el vértice en cuestión, con lo cual, si se llama \texttt{alternativa} para cada vértice, estas toman un tiempo total máximo \textit{O(|E|)}. La complejidad temporal de determinar \texttt{actual}  es \textit{O(log |V|)} porque \texttt{visitables} del record \texttt{estado-dijkstra} (en el archivo \texttt{estado-dijkstra.clj}) es un \texttt{sorted-map}, que es representado internamente con una estructura de heap. Lo mismo sucede para el llamado de \texttt{e/sin-siguiente-a-visitar}: se llama a \texttt{e/siguiente-a-visitar} y luego se crea una versión modifiada del \texttt{sorted-map}, lo cual también es \textit{O(log |V|)}.
+La determinación de las variables \texttt{vecinos-no-visitados} y \texttt{distancias-actual-vecino} toma un tiempo que depende linealmente de la cantidad de vecinos que tenga el vértice en cuestión, con lo cual, si se llama \texttt{alternativa} para cada vértice, estas toman un tiempo total máximo $O(|E|)$. La complejidad temporal de determinar \texttt{actual}  es $O(log |V|)$ porque \texttt{visitables} del record \texttt{estado-dijkstra} (en el archivo \texttt{estado-dijkstra.clj}) es un \texttt{sorted-map}, que es representado internamente con una estructura de heap. Lo mismo sucede para el llamado de \texttt{e/sin-siguiente-a-visitar}: se llama a \texttt{e/siguiente-a-visitar} y luego se crea una versión modifiada del \texttt{sorted-map}, lo cual también es $O(log |V|)$.
 
-Sin embargo, el llamado a \texttt{e/distancias-a-traves-de} tiene una complejidad mayor que los anteriores. Esta función llama una vez por cada vecino del vértice \texttt{actual} a \texttt{distancias-a-traves-de-uno}. Esta función llama, a su vez, a las funciones \texttt{sin-vertice} y \texttt{con-vertice}, ambas crean versiones modificadas del \texttt{sorted-map}, lo cual es \textit{O(log |V|)}. Como \texttt{distancias-a-traves-de-uno} se puede ejecutar como mucho \textit{2|E|} veces (una vez por cada vecino de \texttt{actual}), tenemos que ejecutar el algoritmo propuesto toma un tiempo \textit{O(|V| + |E| log|V|)}.
+Sin embargo, el llamado a \texttt{e/distancias-a-traves-de} tiene una complejidad mayor que los anteriores. Esta función llama una vez por cada vecino del vértice \texttt{actual} a \texttt{distancias-a-traves-de-uno}. Esta función llama, a su vez, a las funciones \texttt{sin-vertice} y \texttt{con-vertice}, ambas crean versiones modificadas del \texttt{sorted-map}, lo cual es $O(log |V|)$. Como \texttt{distancias-a-traves-de-uno} se puede ejecutar como mucho $2|E|$ veces (una vez por cada vecino de \texttt{actual}), tenemos que ejecutar el algoritmo propuesto toma un tiempo $O(|V| + |E| log|V|)$.
 
-Añadir el cálculo de los caminos de cada espía funciona de manera idéntica que con el algoritmo para el grafo con pesos unitarios: La etapa tendrá complejidad \textit{O(|V| + |E|)}, con lo cual el tiempo de ejecución total del algoritmo no cambia.
+Añadir el cálculo de los caminos de cada espía funciona de manera idéntica que con el algoritmo para el grafo con pesos unitarios: La etapa tendrá complejidad $O(|V| + |E|)$, con lo cual el tiempo de ejecución total del algoritmo no cambia.
 
 \subsection{Instrucciones para acceder al códio y ejecutarlo}
 
@@ -163,6 +163,14 @@ A continuación se muestra los tiempos de ejecución de los tres algoritmos para
     \caption{Tiempos de ejecución en segundos para los distintos algoritmos}
 \end{center}
 \end{table}
+
+\subsubsection{Ejecución de la solución}
+La solución para este ejercicio fue implementado en Python, en un único módulo \texttt{kmp.py}. Ejecutando el script por línea de comandos, acepta exactamente dos parámetros:
+\begin{itemize}
+    \item un número entero de longitud de la cadena a probar
+    \item el método a ejecutar, uno de: \texttt{--bruteforce}, \texttt{--kmp}, \texttt{--kmp-optimize}
+\end{itemize}
+El programa ejecutará el método pedido, armando un string de la longitud pedida para que sea el peor caso posible mencionado anteriormente. Si se desea ejecutar con strings arbitrarias, se puede importar el módulo y utilizar las funciones \texttt{bruteforce}, \texttt{cycle} ó \texttt{cycle\_improved}. Las tres aceptan dos strings como parámetro, la string original y la rotada, y devuelven un valor booleano indicando si se cumple la rotación o no.
 
 \subsection{Ejercicio 2}
 El problema descrito es, en efecto, una variante del conocido problema del viajante (\textit{TSP} según sus siglas en inglés), en donde dado un conjunto de \texttt{n} ciudades, y una ciudad de inicio, se desea encontrar un camino tal que:
@@ -283,7 +291,9 @@ El \texttt{while} termina una vez que se analizó una cantidad finita de tiempos
 
 Queda así demostrado que el algoritmo propuesto está en $P$ (la complejidad es: cuadrática + lineal en las divisiones del intervalo de tiempo. Si se hace tender el mínimo time slice a cero, la cantidad de intervalos tenderá a infinito. Pero dado que se estudia el caso de un solo día, y el time slice real no ha de ser tan chico - podríamos suponer como algo chico 5 minutos, lo que daría en 24 hs 288 tiempos a analizar).
 \subsubsection{Reducción a problema de coloreo de grafos}
-Considérese cada una de las materias como un nodo. Dados dos nodos, se establece una conexión entre ellos mediante una arista únicamente en caso de superposición horaria entre los cursos que representan dichos nodos. De esta forma, si se encuentra la forma de pintar todos los vértices de forma que no queden dos adyacentes con el mismo color, utilizando la cantidad mínima de colores, se habrá resuelto el problema propuesto.
+Considérese cada una de las materias como un nodo de un grafo $G$. Dados dos nodos, se establece una conexión entre ellos mediante una arista únicamente en caso de superposición horaria entre los cursos que representan dichos nodos. Dos materias $i, j$ se consideran superpuestas cuando $T_{inicio,i} \leq T_{inicio,j} \leq T_{final,i}$, ó $T_{inicio,i} \leq T_{final,j} \leq T_{final,j}$. La construcción de este grafo es claramente polinomial, para cada materia hay que comparar sus tiempos de inicio y fin con todas las demás, lo que lleva a $2*N^2$ comparaciones. La solución del problema de coloreo de grafos sobre esta instancia es exactamente la misma cantidad de aulas necesarias para nuestras materias: Cada color termina representando un aula a utilizar, con los nodos coloreados siendo las materias asignadas a cada aula.
+
+Cabe aclarar que el problema de coloreo de grafos es NP completo, y también lo es simplemente encontrar el número cromático del mismo (la cantidad de colores a utilizar).
 \subsubsection{¿P=NP?}
 No se pueden sacar conclusiones al respecto. El algoritmo propuesto es $P$, mientras que el coloreo de grafos es $NP$. La reducción no proporciona suficiente información para sacar conclusiones: lo único que se puede concluir es que el problema de coloreo es igual o mas dificil que el problema de aulas, lo cual no es suficiente para probar nada.
 \end{document}
