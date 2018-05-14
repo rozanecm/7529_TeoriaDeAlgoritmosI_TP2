@@ -19,11 +19,11 @@
 \author{
     \\\\\\\\
     \Large{Equipo Q:}\\
-    Lavandeira, Lucas (\texttt{\#98042})\\\texttt{}\\
+    Lavandeira, Lucas (\texttt{\#98042})\\\texttt{lucaslavandeira@gmail.com}\\
     \\
     Rozanec, Matias (\texttt{\#97404})\\\texttt{rozanecm@gmail.com}\\
     \\
-    Sbruzzi, José (\texttt{\#97452})\\\texttt{}\\
+    Sbruzzi, José (\texttt{\#97452})\\\texttt{jose.sbru@gmail.com}\\
     \\\\\\\\\\\\\\
 }
 \date{14.mayo.2018}
@@ -68,7 +68,7 @@
 \section{Parte 1: Spy vs Spy}
 
 \subsection{Caminos sin costos}
-Para resolver el problema partimos de la idea de que el espía que está mas cerca del aeropuerto se queda con los documentos. Así, para resolver el problema con costos unitarios, sedecidió hacer una versión modificada de BFS, partiendo desde el aeropuerto. Así, el algoritmo a medida que se ejecuta descubre "capas" en el grafo, donde cada capa está a una distancia mayor del aeropuerto que la anterior. El algoritmo se detiene cuando descubre una capa que contiene al menos un espía. De esta forma determina el más cercano, o indica que ambos están a la misma distancia.
+Para resolver el problema partimos de la idea de que el espía que está mas cerca del aeropuerto se queda con los documentos. Así, para resolver el problema con costos unitarios, sedecidió hacer una versión modificada de BFS, partiendo desde el aeropuerto. Así, el algoritmo a medida que se ejecuta descubre ``capas'' en el grafo, donde cada capa está a una distancia mayor del aeropuerto que la anterior. El algoritmo se detiene cuando descubre una capa que contiene al menos un espía. De esta forma determina el más cercano, o indica que ambos están a la misma distancia.
 
 \subsubsection{Complejidad del algoritmo para caminos sin costos}
 
@@ -94,7 +94,7 @@ Sin embargo, el llamado a \texttt{e/distancias-a-traves-de} tiene una complejida
 
 Añadir el cálculo de los caminos de cada espía funciona de manera idéntica que con el algoritmo para el grafo con pesos unitarios: La etapa tendrá complejidad $O(|V| + |E|)$, con lo cual el tiempo de ejecución total del algoritmo no cambia.
 
-\subsection{Instrucciones para acceder al códio y ejecutarlo}
+\subsection{Instrucciones para acceder al código y ejecutarlo}
 
 \subsubsection{Preparación}
 Primero es necesario instalar leiningen para poder acceder al comando \texttt{lein}. Se provee el código fuente en un .zip por mail, sin embargo, también se encuentra disponible en \href{http://github.com/jisbruzzi/spies-algo}{github.com/jisbrpzzi/spies-algo}. Se recomienda esta última opción.
@@ -138,7 +138,7 @@ Cabe aclarar que las cotas de complejidad temporal que encontramos no son conclu
 \subsubsection{Conclusiones}
 El algoritmo por fuerza bruta inicial es un orden cuadrático en la longitud del string. Las reducciones a KMP nos llevan a decir que el problema de rotaciones cícicas es, \textbf{a lo sumo}, de complejidad cuadrática en la primera versión, y lineal en la segunda. No se demuestra que esta última cota es la complejidad real del problema porque la reducción como herramienta no nos permite poder afirmarlo.
 
-A continuación se muestra los tiempos de ejecución de los tres algoritmos para distintos tamaños de cadenas de caracteres. En todos los casos se busca detectar si una cadena de tipo \texttt{AAA...B} es rotación cíclica de \texttt{B...AAA}. De la manera que fueron implementadas las soluciones coincide con el peor caso posible de tiempo de ejecución, en donde se rota N veces la segunda cadena para llegar a la primera. Se puede apreciar los órdenes cuadráticos de las implementaciones por fuerza bruta y KMP no optimizado (ésta mucho más pronunciada que la primera), y la sustancial mejora que se logra cuando se optimiza el código para usar una sola ejecución de KMP.
+A continuación se muestra los tiempos de ejecución de los tres algoritmos para distintos tamaños de cadenas de caracteres. En todos los casos se busca detectar si una cadena de tipo \texttt{AAA...B} es rotación cíclica de \texttt{B...AAA}. De la manera que fueron implementadas las soluciones coincide con el peor caso posible de tiempo de ejecución, en donde se rota N veces la segunda cadena para llegar a la primera. Se puede apreciar los órdenes cuadráticos de las implementaciones por fuerza bruta y KMP no optimizado (ésta mucho más pronunciada que la primera), y la sustancial mejora que se logra cuando se optimiza el código para usar una sola ejecución de KMP, tanto que se necesitan varios órdenes mayores de tamaño de entrada para medir un tiempo apreciable.
 
 \begin{table}[h]
     \begin{center}    
@@ -154,8 +154,8 @@ A continuación se muestra los tiempos de ejecución de los tres algoritmos para
         6000 & 7.25 & 1.05 & 0.03 \\ \hline
         7000 & 10.16 & 1.46 & 0.03 \\ \hline
         8000 & 12.96 & 1.85 & 0.03 \\ \hline
-        9000 & 16.5 & 2.39 & 0.04 \\ \hline
-        10000 & 22.61 & 2.95 & 0.01 \\ \hline
+        9000 & 16.50 & 2.39 & 0.04 \\ \hline
+        10000 & 22.61 & 2.95 & 0.03 \\ \hline
         100000 &  &  & 0.06 \\ \hline
         1000000 &  &  & 0.37 \\ \hline
         5000000 &  &  & 1.74 \\ \hline
@@ -202,11 +202,11 @@ Dado un grafo dirigido $G=(V,E)$, se define la siguiente instancia del TSP. Se t
     \includegraphics[scale=0.7]{res/tsp.png} 
     \caption{Grafo original $G$ y transformación usada en TSP}
 \end{figure}
-$G$ tiene un ciclo Hamiltoniano si y sólo si hay un ciclo de longitud como mínimo $2n$ en el TSP estudiado. Si $G$ tiene un ciclo Hamiltoniano, entonces este ordenamiento de las correspondientes ciudades define un tour de longitud $2n$. ¿Por qué? Si existe un ciclo Hamiltoniano sobre $G$, necesariamente ese camino será la solución a nuestro TSP que maximiza distancias, porque por definición, dijimos que las aristas que estaban originalmente en $G$ tendrán peso 2, y las que agregamos para hacer el grafo completo, tendrán peso 1. Estas $n$ aristas de peso $2$ terminan sumando $2n$.
+Mostraremos que $G$ tendrá un ciclo Hamiltoniano si y sólo si hay un ciclo de longitud como mínimo $2n$ en el TSP estudiado. Si $G$ tiene un ciclo Hamiltoniano, entonces este ordenamiento de las correspondientes ciudades define un tour de longitud $2n$. ¿Por qué? Si existe un ciclo Hamiltoniano sobre $G$, necesariamente ese camino será la solución a nuestro TSP que maximiza distancias, porque por definición, dijimos que las aristas que estaban originalmente en $G$ tendrán peso 2, y las que agregamos para hacer el grafo completo, tendrán peso 1. Estas $n$ aristas de peso $2$ terminan sumando $2n$.
 
 A la inversa, suponga que hay un tour de como mínimo $2n$. La expresión para la longitud de este tour es la suma de $n$ términos y como, por definición, hay sólo aristas de peso 1 y 2, entonces debe ser el caso que todos los términos son iguales a $2$. Por lo tanto, todas estas aristas forman el ciclo Hamiltoniano en el TSP, y también en el grafo original $G$, porque las aristas de peso $2$ en el TSP son las que pertenecían a $G$.
 
-Esta equivalencia demostrada nos lleva a concluir que el problema de encontrar ciclos Hamiltonianos en grafos puede ser resuelto de manera general a través de un caso particular de nuestro TSP que busca distancias máximas. Sabiendo que está demostrado que el problema de ciclos es NP-Hard, necesariamente nuestro TSP también lo es, ya que encontramos una manera de resolver ciclos Hamiltonianos utilizando TSP como caja negra interna, entonces este último es necesariamente igual o más difícil que el primero.
+Esta equivalencia demostrada nos lleva a concluir que el problema de encontrar ciclos Hamiltonianos en grafos puede ser resuelto de manera general a través de un caso particular de nuestro TSP que busca distancias máximas. Sabiendo que está demostrado que el problema de ciclos es NP-Hard, necesariamente nuestro TSP también lo es, ya que encontramos una manera de resolver ciclos Hamiltonianos utilizando TSP como caja negra interna, entonces este último es necesariamente igual o más difícil que el primero. De no serlo, estaríamos bajo una contradicción: si fuera más fácil, y las transformaciones fueran polinomiales, significaría que la complejidad del problema de entrada es menor a su valor establecido como dato, es decir, se llegaría a la conclusión de que hallar ciclos Hamiltonianos no es NP-Completo.
 
 \subsection{Ejercicio 3}
 Como primer paso, demostraremos que, dada una cantidad $n$ de cursos, si llamamos $m$ a la cantidad máxima de cursos superpuestos en cualquier instante de tiempo, la cantidad de aulas necesarias para realizar la asignación es $m$.\\
