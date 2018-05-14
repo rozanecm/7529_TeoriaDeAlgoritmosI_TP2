@@ -234,6 +234,27 @@ Se muestra el algoritmo para encontrar el valor de $m$.\\
     }
 \caption{Pseudo código que resuelve el problema.}
 \end{algorithm}
+\textbf{Min time slice}\\
+
+El mínimo time slice es lo que define el paso de tiempo que habrá que tomar para poder analizar superposiciones en la menor cantidad de \textit{timestamps} sin perder de vista ninguna superposición. El paso a tomar debe ser entonces equivalente al mínimo intervalo de tiempo entre dos $T_i$s, siendo $T_i$ cada uno de los tiempos de inicio y finalización de los cursos. Se muestran unos gráficos con el fin de simplificar la comprensión de lo explicado.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{res/intervals01.png} 
+    \caption{En esta figura se puede ver el caso de dos cursos separados, sin superposición. El time slice mínimo será de una hora: analizando los tiempos cada una hora partiendo del primer inicio, se contemplarán todas las posibles superposiciones. Min time slice: 1 hora}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{res/intervals02.png} 
+    \caption{En esta figura se puede observar el caso de dos cursos separados. Esta vez el time slice toma el valor de la duración del segundo curso. Es evidente que no tiene sentido tomar un time slice menor a ese. Min time slice: 2 horas.}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{res/intervals03.png} 
+    \caption{Min time slice: 1 hora.}
+\end{figure}
+
+En el \texttt{while} se analizan todos los instantes de tiempo, arrancando con el primer tiempo de inicio, aumentando de a intervalos de tiempo acorde a lo calculado anteriormente. Para cada instante de tiempo se analiza la cantidad de cursos que se dictan. De esta forma, una vez analizados todos los instantes de tiempo, se obtiene la cantidad máxima de superposiciones.
+
 \subsubsection{Función variante}
 El \texttt{foreach} del algoritmo termina en a lo sumo $n^2$ iteraciones. Por definición, el \texttt{foreach} ejecutará una iteración por $T_i$. En cada iteración, además, se compara a cada $T_i$ con cada $T_j, \forall i\neq j$. Como la cantidad de $T_i$s es $n$, queda probado que habrá máximo $n^2$ iteraciones.
 \begin{equation}
